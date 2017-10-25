@@ -7,12 +7,41 @@ char server[] = "www.google.com";
 IPAddress ip(192, 168, 0, 177);
 EthernetClient client;
 
+String searchQuery = "Dell XPS 15";
 String searchResult = "";
 
 
+String parseInput(String s) {
+   s.replace(" ", "+");
+   return s;
+}
+
+String parseSentence(String s) {
+  if (s.indexOf("<b>...</b>") >= 0){
+      s.remove(0, s.indexOf("<b>...</b>") + 10);
+  }
+  
+  s.remove(s.indexOf(".") + 1);
+  s.trim();
+  if (s.charAt(0) == '"') s.remove(0,1);
+  if (s.charAt(0) == '>') s.remove(0,1);
+  
+  while (true) {
+    int i = s.indexOf("<");
+
+    if (i == -1) {
+      break;
+    } else {
+      s.remove(i, s.indexOf(">") - i + 1);
+    }
+  }
+
+  return s;
+}
+
 void setup() {
   // put your setup code here, to run once:
-  Serial.begin(230400);
+  Serial.begin(1000000);
   while (!Serial){
     ;
   }
@@ -27,7 +56,7 @@ void setup() {
     Serial.println("Connected");
     // Make a HTTP request:
     //client.println("GET /?q=Harvard&format=json HTTP/1.1");
-    client.println("GET /search?q=where+is+paris&gws_rd=cr&dcr=0&ei=BU7vWfWxH8O_jwSMwoWwAw HTTP/1.1");
+    client.println("GET /search?q=" + parseInput(searchQuery) + "&gws_rd=cr&dcr=0&ei=BU7vWfWxH8O_jwSMwoWwAw HTTP/1.1");
     client.println("Host: www.google.com");
     client.println("Connection: close");
     client.println();
@@ -66,8 +95,10 @@ void loop() {
 
         if (searchResult.endsWith("</span>")){
           if (!extraHTMLObj){
+            searchResult = parseSentence(searchResult);
             client.stop();
           } else {
+            searchResult = "";
             extraHTMLObj--;
           }
         }
@@ -76,8 +107,8 @@ void loop() {
 
   // if the server's disconnected, stop the client:
   if (!client.connected()) {
-    Serial.print(searchResult);
-    Serial.println("Disconnecting.");
+    Serial.println(searchQuery);
+    Serial.println(searchResult);
     client.stop();
     
     while (true);
