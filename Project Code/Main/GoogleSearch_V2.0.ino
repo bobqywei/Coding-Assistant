@@ -4,39 +4,18 @@
 // randomly chosen MAC address
 byte mac[] = {0xDE, 0xAB, 0xCE, 0xFE, 0xEF, 0xDA};
 char server[] = "www.google.com";
-// google IP
 IPAddress ip(192, 168, 0, 177);
 EthernetClient client;
 
-String searchQuery = "what is apple incorporated";
+String searchQuery = "Where is Shanghai";
 String searchResult = "";
 
-int baudrate = 1000000;
+String checkString = "";
+bool reachedResult = false;
+int extraHTMLObj = 0;
 
 
-String parseSentence(String s) {
-  if (s.indexOf("<b>...</b>") >= 0){
-      s.remove(0, s.indexOf("<b>...</b>") + 10);
-  }
-  
-  s.remove(s.indexOf(".") + 1);
-  if (s.charAt(0) == '"') s.remove(0,1);
-  if (s.charAt(0) == '>') s.remove(0,1);
-  
-  while (true) {
-    int i = s.indexOf("<");
-
-    if (i == -1) {
-      break;
-    } else {
-      s.remove(i, s.indexOf(">") - i + 1);
-    }
-  }
-
-  return s;
-}
-
-void setup() {
+void ethernetSetup() {
   Serial.begin(1000000);
   while (!Serial){
     ;
@@ -50,25 +29,23 @@ void setup() {
   // if you get a connection, report back via serial:
   if (client.connect(server, 80)) {
     Serial.println("Connected");
-    // Make a HTTP request:
-    String query = searchQuery;
-    query.replace(" ", "+");
-    client.println("GET /search?q=" + query + "&gws_rd=cr&dcr=0&ei=BU7vWfWxH8O_jwSMwoWwAw HTTP/1.1");
-    client.println("Host: www.google.com");
-    client.println("Connection: close");
-    client.println();
   } else {
     // if you didn't get a connection to the server:
     Serial.println("Connection failed");
   }
 }
 
+void makeQuery(){
+  // Make a HTTP request:
+  String query = searchQuery;
+  query.replace(" ", "+");
+  client.println("GET /search?q=" + query + "&gws_rd=cr&dcr=0&ei=BU7vWfWxH8O_jwSMwoWwAw HTTP/1.1");
+  client.println("Host: www.google.com");
+  client.println("Connection: close");
+  client.println();
+}
 
-String checkString = "";
-bool reachedResult = false;
-int extraHTMLObj = 0;
-
-void loop() {
+void readResult() {
   // if there are incoming bytes availablenfrom the server, read them:
   if (client.available()) {
     char c = client.read();
@@ -109,4 +86,26 @@ void loop() {
     
     while (true);
   }
+}
+
+String parseSentence(String s) {
+  if (s.indexOf("<b>...</b>") >= 0){
+      s.remove(0, s.indexOf("<b>...</b>") + 10);
+  }
+  
+  s.remove(s.indexOf(".") + 1);
+  if (s.charAt(0) == '"') s.remove(0,1);
+  if (s.charAt(0) == '>') s.remove(0,1);
+  
+  while (true) {
+    int i = s.indexOf("<");
+
+    if (i == -1) {
+      break;
+    } else {
+      s.remove(i, s.indexOf(">") - i + 1);
+    }
+  }
+
+  return s;
 }
