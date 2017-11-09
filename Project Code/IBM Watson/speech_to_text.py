@@ -122,4 +122,4 @@ def listen(idle):
 
 if __name__ == '__main__':
 	#IDLE = get_idle_intensity()
-	listen(2500)
+	listen(4000)
