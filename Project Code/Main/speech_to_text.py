@@ -102,22 +102,18 @@ def listen(idle):
 			# includes the initial overlap audio to compensate for late reaction timing
 			file = save_to_wav(list(initial_overlap) + recording, p)
 
+			stream.close()
+			p.terminate()
+
 			# converts .wav to text through call to Watson API
 			response = speech_to_text(file)
-			print(response)
-
-			# resets all variables for next iteration if any left
-			started = False
-			audio_in = deque(maxlen=int(1 * RATE / CHUNK))
-			initial_overlap = deque(maxlen=int(0.5 * RATE / CHUNK))
-			recording = []
-			iters -= 1
+			return response
 
 		else:
 			initial_overlap.append(current_data)
 
-	stream.close()
-	p.terminate()
+			stream.close()
+			p.terminate()
 
 
 if __name__ == '__main__':
