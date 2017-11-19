@@ -70,7 +70,7 @@ def speech_to_text(file):
 
 		return transcript
 
-merge
+
 def listen(idle):
 	p = pyaudio.PyAudio()
 	stream = p.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True, frames_per_buffer=CHUNK)
@@ -105,14 +105,16 @@ def listen(idle):
 			# includes the initial overlap audio to compensate for late reaction timing
 			file = save_to_wav(list(initial_overlap) + recording, p)
 
+                        # closes the stream
 			stream.close()
 			p.terminate()
 
 			# converts .wav to text through call to Watson API
 			response = speech_to_text(file)
 			
+			# directory of temporary audio file
 			file_dir = os.path.join("/home/pi/Desktop/se101-f17-group-27/Project Code/Main/", file)
-			
+			# deletes the temporary audio file after a response is obtained
 			if os.path.isfile(file_dir):
                             os.unlink(file_dir)
                             print("Temporary audio file deleted at: " + file_dir)
