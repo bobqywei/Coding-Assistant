@@ -16,7 +16,7 @@ public class Functions {
     private static final String[] NUMBERS = {"zero", "oh", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety", "hundred", "thousand", "million", "billion"};
     private static final String[][] ALL = {ZERO, ONES, TEENS, TENS, MAGNITUDES};
 
-    private static double[] vals;
+    private static int[] vals;
     private static String subSpeech;
 
     Functions(String speech) {
@@ -31,6 +31,10 @@ public class Functions {
 	return this.status;
     }
 
+    protected void addSpeech() {
+	file.add(speech);
+    }
+
     protected void getFile() {
         try {
             BufferedReader reader = new BufferedReader(new FileReader("Files/WorkingFile/FileName.txt"));
@@ -41,7 +45,6 @@ public class Functions {
             exception.printStackTrace();
         }
     }
-
 
     protected void openFile() {
         BufferedReader reader;
@@ -60,6 +63,10 @@ public class Functions {
 
     protected void writeFile() {
         try {
+		PrintWriter writer = new PrintWriter("Files/" + this.fileName + ".txt");
+		writer.print("");
+                writer.close();
+
             PrintWriter pr = new PrintWriter("Files/" + this.fileName + ".txt");
 
             for (int i = 0; i < file.size() ; i ++) {
@@ -75,7 +82,8 @@ public class Functions {
     protected void newFile(String fileName) {
         try {
             PrintWriter pr = new PrintWriter("Files/" + fileName + ".txt");
-            pr.println("public class " + fileName + " {");
+	    pr.println("#include <stdio.h>\n");
+            pr.println("int main() {");
             pr.close();
         }
         catch (Exception exception) {
@@ -122,14 +130,33 @@ public class Functions {
         }
     }
 
+    protected void cloneFile(String newName) {
+        File file = new File("Files/" + fileName + ".txt");
+	File file2 = new File("Files/" + newName + ".txt");
+        if (file.isFile()) {
+            if (file2.isFile()) {
+                status = "File " + newName + " already exists";
+            } else {
+		file.renameTo(new File("Files/" + newName + ".txt"));
+	    }
+        } else {
+            status = "File " + fileName + " does not exist";
+        }
+    }
+
     protected void renameFile(String oldName, String newName) {
         File file = new File("Files/" + oldName + ".txt");
+	File file2 = new File("Files/" + newName + ".txt");
         if (file.isFile()) {
-            file.renameTo(new File("Files/" + newName + ".txt"));
-            file = new File("Files/" + newName + ".txt");
-            if (file.isFile()) {
-                status = "File " + fileName + " already exists";
-            }
+	    if (file2.isFile()) {
+                status = "File " + newName + " already exists";
+            } else {
+		if (oldName.equals(fileName)) {
+		    status = "Switch working file to change file name";
+		} else {
+                    file.renameTo(new File("Files/" + newName + ".txt"));
+		}
+	    }
         } else {
             status = "File " + fileName + " does not exist";
         }
@@ -146,6 +173,7 @@ public class Functions {
     }
 
     protected static void findNumber() {
+	speech = speech.replace(".", "");
         while (numberExists(speech, NUMBERS)) {
             speech = speech.replaceAll("\\s+", " ");
             int smallest = 0;
@@ -166,13 +194,13 @@ public class Functions {
                 }
                 largest += aTemp.length() + 1;
 
+
             }
 
             subSpeech = speech.substring(smallest, largest - 1);
             if (changeNumber()) {
                 speech = speech.substring(0, smallest) + vals[0] + " " + speech.substring(largest - 1);
             }
-
         }
     }
 
@@ -180,10 +208,10 @@ public class Functions {
     protected static boolean changeNumber() {
         subSpeech.replaceAll("and ", "");
         String[] inputSplit = subSpeech.split(" ");
-        vals = new double[(inputSplit.length + 1) / 2];
+        vals = new int[(inputSplit.length + 1) / 2];
         int	valCount = 0;
-        double temp = 0; // stores cumulative value until the next operation is found (for switch statement)
-        double tempMag = 0; // stores the most recent value that is to be either gaining magnitude or being added
+        int temp = 0; // stores cumulative value until the next operation is found (for switch statement)
+        int tempMag = 0; // stores the most recent value that is to be either gaining magnitude or being added
         for (int i = 0; i < inputSplit.length; i++) { // cycling through all inputted words
             for (int j = 0; j < ALL.length; j++) { // cycling through all arrays (but not through the contents of each array)
                 if (Arrays.asList(ALL[j]).indexOf(inputSplit[i]) != -1) { // indexing the content of each array for the current word
@@ -201,8 +229,7 @@ public class Functions {
                         case 4: if (col == 0) {
                             tempMag *= 100;
                         } else {
-                            tempMag *= Math.pow(1000, col); // col corresponds t
-o mag i.e. col = 1: 1000, col = 2: 1000 * 1000 = 1000000
+                            tempMag *= Math.pow(1000, col); // col corresponds to mag i.e. col = 1: 1000, col = 2: 1000 * 1000 = 1000000
                         }
                             break; // no need to increment valCount. magnitude only affects the most recent value and does not add any new ones
                     }
@@ -229,12 +256,11 @@ o mag i.e. col = 1: 1000, col = 2: 1000 * 1000 = 1000000
     }
 
     //Line x
-
     protected static void copy(int x) {
         if (x <= file.size() & x >= 0) {
             FileWriter fwOb;
             try {
-                fwOb = new FileWriter("Clipboard.txt", false);
+                fwOb = new FileWriter("Files/Clipboard.txt", false);
                 PrintWriter pwOb = new PrintWriter(fwOb, false);
                 pwOb.flush();
                 pwOb.close();
@@ -243,7 +269,7 @@ o mag i.e. col = 1: 1000, col = 2: 1000 * 1000 = 1000000
                 exception.printStackTrace();
             }
             try {
-                PrintWriter pr = new PrintWriter("Clipboard.txt");
+                PrintWriter pr = new PrintWriter("Files/Clipboard.txt");
                 pr.println(file.get(x));
                 pr.close();
             } catch (Exception exception) {
@@ -259,7 +285,7 @@ o mag i.e. col = 1: 1000, col = 2: 1000 * 1000 = 1000000
         if (x <= file.size() & x >= 0 & y <= file.size() & y >= 0) {
             FileWriter fwOb;
             try {
-                fwOb = new FileWriter("Clipboard.txt", false);
+                fwOb = new FileWriter("Files/Clipboard.txt", false);
 
                 PrintWriter pwOb = new PrintWriter(fwOb, false);
                 pwOb.flush();
@@ -269,7 +295,7 @@ o mag i.e. col = 1: 1000, col = 2: 1000 * 1000 = 1000000
                 exception.printStackTrace();
             }
             try {
-                PrintWriter pr = new PrintWriter("Clipboard.txt");
+                PrintWriter pr = new PrintWriter("Files/Clipboard.txt");
                 for (int z = 0; z <= Math.abs(y - x); z ++) {
                     if (x < y) {
                         pr.println(file.get(x + z));
@@ -294,7 +320,7 @@ o mag i.e. col = 1: 1000, col = 2: 1000 * 1000 = 1000000
             String line;
             try {
 
-                reader = new BufferedReader(new FileReader("Clipboard.txt"));
+                reader = new BufferedReader(new FileReader("Files/Clipboard.txt"));
                 while ((line = reader.readLine()) != null) {
                     temp.add(0, line);
                 }
@@ -377,19 +403,21 @@ o mag i.e. col = 1: 1000, col = 2: 1000 * 1000 = 1000000
     }
 
     protected static void backspace() {
-        StringBuilder sb = new StringBuilder(file.get(file.size() - 1));
-        if (sb.length() == 0) {
-            file.remove(file.size() - 1);
-
-        } else {
-            sb.setLength(sb.length() - 1);
-            file.set(file.size() - 1, sb.toString());
-        }
+	if (file.size() != 0) {
+            StringBuilder sb = new StringBuilder(file.get(file.size() - 1));
+	    if (sb.length() == 0) {
+    	        file.remove(file.size() - 1);
+       	    } else {
+                sb.setLength(sb.length() - 1);
+                file.set(file.size() - 1, sb.toString());
+            }
+	} else {
+	    status = "Index out of bounds";
+	}
     }
 
 
     protected static void simplify() {
-	speech = speech.replace(".", "");
         speech = speech.toLowerCase();
 
         speech = speech.replaceAll("\\btilde\\b", "~");
@@ -402,7 +430,7 @@ o mag i.e. col = 1: 1000, col = 2: 1000 * 1000 = 1000000
         speech = speech.replaceAll("\\bat symbol\\b", "@");
         speech = speech.replaceAll("\\bat\\b", "@");
         speech = speech.replaceAll("\\bnumber sign\\b", "#");
-
+	speech = speech.replaceAll("\\bnumber\\b", "#");
         speech = speech.replaceAll("\\bpound\\b", "#");
         speech = speech.replaceAll("\\bsharp\\b", "#");
         speech = speech.replaceAll("\\bhashtag\\b", "#");
@@ -418,7 +446,8 @@ o mag i.e. col = 1: 1000, col = 2: 1000 * 1000 = 1000000
         speech = speech.replaceAll("\\basterisk\\b", "*");
         speech = speech.replaceAll("\\bstar symbol\\b", "*");
         speech = speech.replaceAll("\\bstar\\b", "*");
-
+	speech = speech.replaceAll("\\btimes\\b", "*");
+	speech = speech.replaceAll("\\bmultiplied by\\b", "*");
         speech = speech.replaceAll("\\bopen parenthesis\\b", "(");
         speech = speech.replaceAll("\\bclose parenthesis\\b", ")");
         speech = speech.replaceAll("\\bhyphen\\b", "-");
@@ -442,6 +471,7 @@ o mag i.e. col = 1: 1000, col = 2: 1000 * 1000 = 1000000
         speech = speech.replaceAll("\\breverse solidus\\b", "\\");
         speech = speech.replaceAll("\\bforward slash\\b", "/");
         speech = speech.replaceAll("\\bsolidus\\b", "/");
+	speech = speech.replaceAll("\\bdivided by\\b", "/");
         speech = speech.replaceAll("\\bcolon\\b", ":");
         speech = speech.replaceAll("\\bsemicolon\\b", ";");
         speech = speech.replaceAll("\\bquote\\b", "\"");
