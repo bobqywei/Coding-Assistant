@@ -3,6 +3,8 @@ import wave
 import math
 import audioop
 import time
+import shutil
+import os
 from collections import deque
 
 import json
@@ -62,12 +64,13 @@ def speech_to_text(file):
 	with open(file, "rb") as audio_content:
 		# obtains response from api call (JSON to string)
 		response = json.dumps(stt.recognize(audio_content, content_type="audio/wav"))
+		
 		# parses string to obtain just the transcript
 		transcript = (response.split("transcript\": ")[1]).split("}")[0]
 
 		return transcript
 
-
+merge
 def listen(idle):
 	p = pyaudio.PyAudio()
 	stream = p.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True, frames_per_buffer=CHUNK)
@@ -107,11 +110,21 @@ def listen(idle):
 
 			# converts .wav to text through call to Watson API
 			response = speech_to_text(file)
+			
+			file_dir = os.path.join("/home/pi/Desktop/se101-f17-group-27/Project Code/Main/", file)
+			
+			if os.path.isfile(file_dir):
+                            os.unlink(file_dir)
+                            print("Temporary audio file deleted at: " + file_dir)
+			
 			print(response)
 			return response
+		
+		else:
+                    initial_overlap.append(current_data)
 
 
 
 if __name__ == '__main__':
 	#IDLE = get_idle_intensity()
-	listen(4000)
+	listen(2500)

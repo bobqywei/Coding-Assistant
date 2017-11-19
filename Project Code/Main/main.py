@@ -1,7 +1,7 @@
 import pull_code
 import speech_to_text
 
-input = speech_to_text.listen(2000)
+input = speech_to_text.listen(2500)
 
 file_name = "temp.c"
 url_result = pull_code.get_url_result(input)
