@@ -4,14 +4,14 @@ import subprocess
 
 
 def get_url_result(string_input):
-	query = string_input.replace(" ", "+") + "+program+in+C"
+	query = string_input.replace(" ", "+") + "+program+in+C+tutorialspoint"
 	result_url = ""
 
 	html_res = urllib.request.urlopen('https://www.bing.com/search?q=' + query).read()
 	soup = BeautifulSoup(html_res, "html.parser")
 
 	for link in soup.find_all('a', href=True):
-		if link['href'].startswith("https://www.tutorialspoint.com") and link['href'].endswith("in_c.htm"):
+		if link['href'].startswith("https://www.tutorialspoint.com"): #and link['href'].endswith("in_c.htm"):
 			result_url = (link['href'])
 			break
 
@@ -35,21 +35,20 @@ def get_save_code(result_url, filename):
 		file.write(code)
 
 
-def run_in_terminal(filename):
+def compile_in_terminal(filename):
 	bash = subprocess.Popen(['C:/Windows/System32/bash'], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-	input = 'gcc ' + filename + ' -o tmp\n'
+	input = 'gcc ' + filename + '\n'
 	bash.stdin.write(input.encode())
-	stdout = bash.communicate(b'./tmp')
-
+	stdout = bash.communicate(b'./a.out')[0].decode('ascii')
 	print(stdout)
 
 
-input = "bubble sort"
+input = "selection sort"
 file_name = input.replace(" ", "_") + ".c"
 
-# url_result = get_url_result(input)
-# get_save_code(url_result, file_name)
-run_in_terminal(file_name)
+url_result = get_url_result(input)
+get_save_code(url_result, file_name)
+compile_in_terminal(file_name)
 
 
 
