@@ -37,7 +37,6 @@ def get_idle_intensity():
 
 	# idle intensity is the average of the lowest 20% of intensities
 	idle_int = sum(values[:int(samples * 0.2)]) / int(samples * 0.2)
-
 	print("Idle Intensity: ", idle_int)
 	stream.close()
 	p.terminate()
@@ -90,35 +89,28 @@ def listen(idle):
 
 		# waits for intensity of audio to exceed idle intensity
 		if sum([i > idle for i in audio_in]) > 0:
-			if not started:
-				print("Starting Recording")
-				started = True
-			recording.append(current_data)
+		    if not started:
+                        print("Starting Recording")
+                        started = True
+				
+		    recording.append(current_data)
 
 		elif started:
-			print("Finished Recording")
+		    print("Finished Recording")
 
-			# saves audio to .wav file
-			# includes the initial overlap audio to compensate for late reaction timing
-			file = save_to_wav(list(initial_overlap) + recording, p)
+		    # saves audio to .wav file
+		    # includes the initial overlap audio to compensate for late reaction timing
+		    file = save_to_wav(list(initial_overlap) + recording, p)
 
-			# converts .wav to text through call to Watson API
-			response = speech_to_text(file)
-			print(response)
-
-			# resets all variables for next iteration if any left
-			started = False
-			audio_in = deque(maxlen=int(1 * RATE / CHUNK))
-			initial_overlap = deque(maxlen=int(0.5 * RATE / CHUNK))
-			recording = []
-			iters -= 1
-
-		else:
-			initial_overlap.append(current_data)
-
-	stream.close()
-	p.terminate()
-
+		    # converts .wav to text through call to Watpython multiple filesson API
+		    response = speech_to_text(file)
+		    stream.close()
+		    p.terminate()
+		    return response
+                else:
+		    initial_overlap.append(current_data)
+		    stream.close()
+		    p.terminate()
 
 if __name__ == '__main__':
 	#IDLE = get_idle_intensity()

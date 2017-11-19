@@ -46,7 +46,7 @@ def run_in_terminal(filename):
 
 
 if __name__ == '__main__':
-    input = "show me an example of quick sort"
+    input = "merge sort"
     file_name = input.replace(" ", "_") + ".c"
 
     url_result = get_url_result(input)
