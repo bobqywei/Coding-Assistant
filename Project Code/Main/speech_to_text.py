@@ -107,13 +107,9 @@ def listen(idle):
 
 			# converts .wav to text through call to Watson API
 			response = speech_to_text(file)
+			print(response)
 			return response
 
-		else:
-			initial_overlap.append(current_data)
-
-			stream.close()
-			p.terminate()
 
 
 if __name__ == '__main__':

@@ -11,7 +11,7 @@ def get_url_result(string_input):
 	soup = BeautifulSoup(html_res, "html.parser")
 
 	for link in soup.find_all('a', href=True):
-		if link['href'].startswith("https://www.tutorialspoint.com") and link['href'].endswith("in_c.htm"):
+		if link['href'].endswith("in_c.htm") or link['href'].startswith("https://www.tutorialspoint.com"):
 			result_url = (link['href'])
 			break
 
@@ -31,7 +31,7 @@ def get_save_code(result_url, filename):
 	code = code.replace('&plus;', '+')
 	print(code)
 
-	with open(filename, 'a+') as file:
+	with open(filename, 'w') as file:
 		file.write(code)
 
 
@@ -46,7 +46,7 @@ def run_in_terminal(filename):
 
 
 if __name__ == '__main__':
-    input = "merge sort"
+    input = "binary search"
     file_name = input.replace(" ", "_") + ".c"
 
     url_result = get_url_result(input)
