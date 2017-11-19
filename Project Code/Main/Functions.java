@@ -35,6 +35,10 @@ public class Functions {
 	file.add(speech);
     }
 
+    protected int getCurrentLine() {
+	return file.size() - 1;
+    }
+
     protected void getFile() {
         try {
             BufferedReader reader = new BufferedReader(new FileReader("Files/WorkingFile/FileName.txt"));

@@ -115,7 +115,7 @@ def listen(idle):
 
 			# converts .wav to text through call to Watson API
 			response = speech_to_text(file)
-			response.lstrip().lower()
+			response.lstrip().rstrip().lower()
 			
 			# directory of temporary audio file
 			file_dir = os.path.join("/home/pi/Desktop/se101-f17-group-27/Project Code/Main/", file)
