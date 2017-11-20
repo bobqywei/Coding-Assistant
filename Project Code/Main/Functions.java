@@ -7,7 +7,7 @@ public class Functions {
     private static ArrayList<String> file = new ArrayList<String>();
     private static String fileName;
     private static String speech;
-    private static String status = "Process finished with exit code 0";
+    private static String status = "Success";
     private static final String[] ZERO = {"zero", "oh"};
     private static final String[] ONES = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
     private static final String[] TEENS = {"ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"};
@@ -343,7 +343,6 @@ public class Functions {
     //Line x
     protected static void cut(int x) {
         if (x <= file.size() & x >= 0) {
-
             copy(x);
             delete(x);
         } else {
@@ -434,7 +433,7 @@ public class Functions {
         speech = speech.replaceAll("\\bat symbol\\b", "@");
         speech = speech.replaceAll("\\bat\\b", "@");
         speech = speech.replaceAll("\\bnumber sign\\b", "#");
-	speech = speech.replaceAll("\\bnumber\\b", "#");
+	    speech = speech.replaceAll("\\bnumber\\b", "#");
         speech = speech.replaceAll("\\bpound\\b", "#");
         speech = speech.replaceAll("\\bsharp\\b", "#");
         speech = speech.replaceAll("\\bhashtag\\b", "#");
@@ -445,13 +444,13 @@ public class Functions {
         speech = speech.replaceAll("\\bcaret\\b", "^");
         speech = speech.replaceAll("\\bcircumflex\\b", "^");
         speech = speech.replaceAll("\\bampersand\\b", "&");
-	speech = speech.replaceAll("\\band symbol\\b", "&");
+        speech = speech.replaceAll("\\band symbol\\b", "&");
         speech = speech.replaceAll("\\band\\b", "&");
         speech = speech.replaceAll("\\basterisk\\b", "*");
         speech = speech.replaceAll("\\bstar symbol\\b", "*");
         speech = speech.replaceAll("\\bstar\\b", "*");
-	speech = speech.replaceAll("\\btimes\\b", "*");
-	speech = speech.replaceAll("\\bmultiplied by\\b", "*");
+	    speech = speech.replaceAll("\\btimes\\b", "*");
+	    speech = speech.replaceAll("\\bmultiplied by\\b", "*");
         speech = speech.replaceAll("\\bopen parenthesis\\b", "(");
         speech = speech.replaceAll("\\bclose parenthesis\\b", ")");
         speech = speech.replaceAll("\\bhyphen\\b", "-");
@@ -475,7 +474,7 @@ public class Functions {
         speech = speech.replaceAll("\\breverse solidus\\b", "\\");
         speech = speech.replaceAll("\\bforward slash\\b", "/");
         speech = speech.replaceAll("\\bsolidus\\b", "/");
-	speech = speech.replaceAll("\\bdivided by\\b", "/");
+	    speech = speech.replaceAll("\\bdivided by\\b", "/");
         speech = speech.replaceAll("\\bcolon\\b", ":");
         speech = speech.replaceAll("\\bsemicolon\\b", ";");
         speech = speech.replaceAll("\\bquote\\b", "\"");
