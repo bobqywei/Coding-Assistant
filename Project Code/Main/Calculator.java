@@ -69,7 +69,6 @@ public class Calculator {
 					if (i + 1 == inputSplit.length || Arrays.asList(OPERATIONS).indexOf(inputSplit[i + 1]) != -1 ) { // meaning next is operation, so copy temp into th vals array. or, if there is no next value i.e. i is on the last iteration, copy.
 						temp += tempMag; // if we do not have this, the very last value of inputSplit will be missed. it will be stored in tempMag because of the switch statement, but it is not stored into temp
 						vals[valCount] = temp;
-						System.out.println("FIX ME" + vals[valCount]);
 						valCount++;
 						temp = 0;
 						tempMag = 0;

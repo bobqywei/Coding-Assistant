@@ -25,9 +25,15 @@ public class Main {
 
 		//Executes commands
 		if (speech.contains("raspberry")) {
-			if (speech.contains("calculate") || speech.contains("what is") || speech.contains("what's") || speech.contains("calculate")) {
-			speech.replace("equal to", "");
-			speech.replace("equal", "");
+			if (speech.contains("calculate") || speech.contains("what is") || speech.contains("what's")) {
+			speech = speech.replace("raspberry", "");
+			speech = speech.replace("equal to", "");
+			speech = speech.replace("equal", "");
+			speech = speech.replace("what is", "");
+			speech = speech.replace("what does", "");
+			speech = speech.replace("what's", "");
+			speech = speech.replace("calculate", "");
+			speech = speech.replace("\\s+", "");
 			Calculator calc = new Calculator(speech);
 				if (calc.decode() == true) {
 					System.out.println(calc.getValue());
@@ -153,10 +159,22 @@ public class Main {
 			functions.addSpeech();
 		}
 
-        //Writes ArrayList to text file
+        	//Writes ArrayList to text file
 		functions.writeFile();
 
 		//Prints status
 		status = functions.getStatus();
+		try {
+		    PrintWriter writer = new PrintWriter("Files/Status.txt");
+		    writer.print("");
+                    writer.close();
+
+            	    PrintWriter pr = new PrintWriter("Files/Status.txt");
+		    pr.println(status);
+            	    pr.close();
+        }
+        catch (Exception exception) {
+            exception.printStackTrace();
+        }
     }
 }

@@ -318,14 +318,15 @@ if __name__ == "__main__": #instead we have 'code mode' or something of the sort
 	funcsInit = Functions("hello.c") # new functions object with initialized file
 	funcs.changeFile("hello.c") # opens a reader stream and stores the file in fileObj property
 
-	funcs.newInput("create a while loop where the condition is while a is less than b")
-	funcs.newInput("and if not a equals equals b then c plus d and make another while loop where while a is greater than b a plus b and")
-	funcs.newInput("a plus b and a plus b and c plus d if then else a plus b a plus b")
-	funcs.newInput("a plus b")
+	#funcs.newInput("create a while loop where the condition is while a is less than b")
+#	funcs.newInput("and if not a equals equals b then c plus d and make another while loop where while a is greater than b a plus b and")
+#	funcs.newInput("a plus b and a plus b and c plus d if then else a plus b a plus b")
+#	funcs.newInput("a plus b")
 
 #	funcs.newInput("give me an integer called a equal to a plus two hundred and three divided by three and also create a char b equals g and a char called c and let it equal to r and a double called d and let it equal to a plus b plus c plus thirty three point four five")
 #	funcs.newInput("and if a equals equal b then print hello end print and if then a plus b and if then a plus b and if then a minus b")
-#	funcs.newInput("and print hello b there end print")
+        #funcs.newInput("create a new integer called b")
+        #funcs.newInput("and print hello b there end print")
 #	funcs.newInput("end if")
 #	funcs.newInput("and add a break")
 #	funcs.newInput("end if")

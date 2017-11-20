@@ -120,7 +120,7 @@ def listen(idle):
 			response.lstrip().rstrip().lower()
 			
 			# directory of temporary audio file
-			file_dir = os.path.join("/home/pi/Desktop/se101-f17-group-27/Project Code/Main/", file)
+			file_dir = os.path.join(os.getcwd(), file)
 			# deletes the temporary audio file after a response is obtained
 			if os.path.isfile(file_dir):
 				os.unlink(file_dir)

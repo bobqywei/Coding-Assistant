@@ -55,7 +55,7 @@ public class Functions {
         String line;
 
         try {
-            reader = new BufferedReader(new FileReader("Files/" + this.fileName + ".txt"));
+            reader = new BufferedReader(new FileReader("Files/" + this.fileName + ".c"));
             while ((line = reader.readLine()) != null) {
                 file.add(line);
             }
@@ -67,11 +67,11 @@ public class Functions {
 
     protected void writeFile() {
         try {
-		PrintWriter writer = new PrintWriter("Files/" + this.fileName + ".txt");
+		PrintWriter writer = new PrintWriter("Files/" + this.fileName + ".c");
 		writer.print("");
                 writer.close();
 
-            PrintWriter pr = new PrintWriter("Files/" + this.fileName + ".txt");
+            PrintWriter pr = new PrintWriter("Files/" + this.fileName + ".c");
 
             for (int i = 0; i < file.size() ; i ++) {
                 pr.println(file.get(i));
@@ -85,7 +85,7 @@ public class Functions {
 
     protected void newFile(String fileName) {
         try {
-            PrintWriter pr = new PrintWriter("Files/" + fileName + ".txt");
+            PrintWriter pr = new PrintWriter("Files/" + fileName + ".c");
 	    pr.println("#include <stdio.h>\n");
             pr.println("int main() {");
             pr.close();
@@ -96,10 +96,10 @@ public class Functions {
     }
 
     protected void changeFile(String fileName) {
-        File file = new File("Files/" + fileName + ".txt");
+        File file = new File("Files/" + fileName + ".c");
         if (file.isFile()) {
             try {
-                PrintWriter pr = new PrintWriter("Files/WorkingFile/FileName.txt");
+                PrintWriter pr = new PrintWriter("Files/WorkingFile/FileName.c");
                 pr.println(fileName);
                 pr.close();
 
@@ -117,7 +117,7 @@ public class Functions {
     }
 
     protected void deleteFile(String fileName) {
-        File file = new File("Files/" + fileName + ".txt");
+        File file = new File("Files/" + fileName + ".c");
         if (file.isFile()) {
             try {
                 file.delete();
@@ -135,13 +135,13 @@ public class Functions {
     }
 
     protected void cloneFile(String newName) {
-        File file = new File("Files/" + fileName + ".txt");
-	File file2 = new File("Files/" + newName + ".txt");
+        File file = new File("Files/" + fileName + ".c");
+	File file2 = new File("Files/" + newName + ".c");
         if (file.isFile()) {
             if (file2.isFile()) {
                 status = "File " + newName + " already exists";
             } else {
-		file.renameTo(new File("Files/" + newName + ".txt"));
+		file.renameTo(new File("Files/" + newName + ".c"));
 	    }
         } else {
             status = "File " + fileName + " does not exist";
@@ -149,8 +149,8 @@ public class Functions {
     }
 
     protected void renameFile(String oldName, String newName) {
-        File file = new File("Files/" + oldName + ".txt");
-	File file2 = new File("Files/" + newName + ".txt");
+        File file = new File("Files/" + oldName + ".c");
+	File file2 = new File("Files/" + newName + ".c");
         if (file.isFile()) {
 	    if (file2.isFile()) {
                 status = "File " + newName + " already exists";
@@ -158,7 +158,7 @@ public class Functions {
 		if (oldName.equals(fileName)) {
 		    status = "Switch working file to change file name";
 		} else {
-                    file.renameTo(new File("Files/" + newName + ".txt"));
+                    file.renameTo(new File("Files/" + newName + ".c"));
 		}
 	    }
         } else {

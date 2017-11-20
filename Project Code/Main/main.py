@@ -8,7 +8,7 @@ code_file_name = "temp.c"
 with open("/home/pi/Desktop/se101-f17-group-27/Project Code/Main/Files/Speech.txt", "w") as f:
     f.write(stt_transcript)
 
-if input.startswith("show"):
+if stt_transcript.startswith("show"):
 	url_result = pull_code.get_url_result(stt_transcript)
 
 	if url_result:
