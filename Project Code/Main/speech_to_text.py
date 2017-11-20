@@ -70,7 +70,7 @@ def speech_to_text(file):
 		print(response['transcript'])
 		
 		if response:
-                    transcript = (response['transcript'])
+			transcript = (response['transcript'])
 
 		return transcript
 
@@ -84,6 +84,7 @@ def listen(idle):
 
 	# stores all unfiltered incoming audio
 	audio_in = deque(maxlen=1 * int(RATE/CHUNK))
+
 	# initial overlap compensates for a late recording by combining 5 secs prior of audio
 	initial_overlap = deque(maxlen=int(0.5 * RATE/CHUNK))
 	started = False;
@@ -100,6 +101,7 @@ def listen(idle):
 			if not started:
 				print("Starting Recording")
 				started = True
+
 			recording.append(current_data)
 
 		elif started:
@@ -109,7 +111,7 @@ def listen(idle):
 			# includes the initial overlap audio to compensate for late reaction timing
 			file = save_to_wav(list(initial_overlap) + recording, p)
 
-                        # closes the stream
+			# closes the stream
 			stream.close()
 			p.terminate()
 
@@ -121,17 +123,15 @@ def listen(idle):
 			file_dir = os.path.join("/home/pi/Desktop/se101-f17-group-27/Project Code/Main/", file)
 			# deletes the temporary audio file after a response is obtained
 			if os.path.isfile(file_dir):
-                            os.unlink(file_dir)
-                            print("Temporary audio file deleted at: " + file_dir)
-			
+				os.unlink(file_dir)
+				print("Temporary audio file deleted at: " + file_dir)
+
 			print(response)
 			return response
-		
+
 		else:
-                    initial_overlap.append(current_data)
-
-
+			initial_overlap.append(current_data)
 
 if __name__ == '__main__':
-	#IDLE = get_idle_intensity()
+	# IDLE = get_idle_intensity()
 	listen(2500)
