@@ -9,7 +9,7 @@ RUNNING = True
 code_file_name = "temp.c"
 
 while RUNNING:
-        url_result = pull_code.get_url_result(stt_transcript)
+
 	stt_transcript = speech_to_text.listen(2500)
 	
 	with open(os.getcwd() + "/Speech.txt", "w") as f:
