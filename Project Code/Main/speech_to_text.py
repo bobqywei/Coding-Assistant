@@ -63,14 +63,13 @@ def save_to_wav (data, p):
 def speech_to_text(file):
 	with open(file, "rb") as audio_content:
 		# obtains response from api call (JSON to string)
-		response = json.loads(json.dumps(stt.recognize(audio_content, content_type="audio/wav")))['results'][0]['alternatives'][0]
-		
-		# parses string to obtain just the transcript
-		# transcript = (response.split("transcript\": ")[1]).split("}")[0]
-		print(response['transcript'])
-		
-		if response:
+		response = json.loads(json.dumps(stt.recognize(audio_content, content_type="audio/wav")))
+		transcript = ""
+
+		if len(response['results']) > 0:
+			response = response['results'][0]['alternatives'][0]
 			transcript = (response['transcript'])
+			print(transcript)
 
 		return transcript
 
@@ -120,18 +119,24 @@ def listen(idle):
 			response.lstrip().rstrip().lower()
 			
 			# directory of temporary audio file
-			file_dir = os.path.join("/home/pi/Desktop/se101-f17-group-27/Project Code/Main/", file)
+			file_dir = os.path.join(os.getcwd(), file)
 			# deletes the temporary audio file after a response is obtained
 			if os.path.isfile(file_dir):
 				os.unlink(file_dir)
-				print("Temporary audio file deleted at: " + file_dir)
+				print("Temporary audio file deleted")
 
-			print(response)
 			return response
 
 		else:
 			initial_overlap.append(current_data)
 
 if __name__ == '__main__':
-	# IDLE = get_idle_intensity()
-	listen(2500)
+	while True:
+		response = listen(2500)
+
+		if response:
+			print(response)
+
+			if response.startswith("goodbye"):
+				print("OK. I'm going back to sleep.")
+				break
