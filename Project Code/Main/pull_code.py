@@ -43,7 +43,7 @@ def run_in_terminal(filename):
 
 
 if __name__ == '__main__':
-	input = "binary search"
+	input = "show me binary search"
 	file_name = input.replace(" ", "_") + ".c"
 	url_result = get_url_result(input)
 	get_save_code(url_result, file_name)
