@@ -127,7 +127,25 @@ public class Main {
 					functions.insert(one, two, speech2);
 				}
 			} else if (speech.contains("insert") && speech.contains("line")) {
-				
+				if (speech.contains("at line")) {
+					functions.findNumber();
+					speech = functions.getSpeech();
+					int one = Integer.parseInt((speech.substring(speech.indexOf("line") + "line".length() + 1)).replaceAll("\\s+", ""));
+					String speech2 = speech.substring(speech.indexOf("insert") + "insert".length() + 1, speech.indexOf("at line") - 1);
+					Functions functions2 = new Functions(speech2);
+					functions2.simplify();
+					speech2 = functions2.getSpeech();
+					functions.insert(one, speech2);
+				} else if (speech.contains("in line")) {
+					functions.findNumber();
+					speech = functions.getSpeech();
+					int one = Integer.parseInt((speech.substring(speech.indexOf("line") + "line".length() + 1)).replaceAll("\\s+", ""));
+					String speech2 = speech.substring(speech.indexOf("insert") + "insert".length() + 1, speech.indexOf("in line") - 1);
+					Functions functions2 = new Functions(speech2);
+					functions2.simplify();
+					speech2 = functions2.getSpeech();
+					functions.insert(one, speech2);
+				}
 			}
 		} else {
 			functions.findNumber();
