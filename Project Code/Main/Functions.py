@@ -48,7 +48,7 @@ class Functions:
 			self.fileName = os.path.join('Files', reader.read()[:-1] + '.c')
 
 	def newInput(self):
-		with open(self.fileName, 'r') as f:
+		with open('Files/Speech.txt', 'r') as f:
 			self.string = f.read()
 		# common words pre-naming var are "called" and "named".... they fit between dataType and varName most of the time so we can just remove it. we search for these words, if they don't show up default is just around =. also , search after any operator for any "to" as in let this equal to, or if a equal euqal to b since "to" is fairly common after equals
 		self.string = self.string.replace(" called ", " ")
