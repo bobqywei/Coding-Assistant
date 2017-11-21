@@ -11,9 +11,7 @@ code_file_name = "temp.c"
 
 while RUNNING:
 
-	print("initial check\n")
 	stt_transcript = speech_to_text.listen(2500)
-	print("running")
 	
 	if stt_transcript.startswith("show"):
 		url_result = pull_code.get_url_result(stt_transcript)

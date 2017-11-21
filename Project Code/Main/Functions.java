@@ -114,7 +114,7 @@ public class Functions {
         File file = new File("Files/" + fileName + ".c");
         if (file.isFile()) {
             try {
-                PrintWriter pr = new PrintWriter("Files/WorkingFile/FileName.c");
+                PrintWriter pr = new PrintWriter("Files/WorkingFile/FileName.txt");
                 pr.println(fileName);
                 pr.close();
 

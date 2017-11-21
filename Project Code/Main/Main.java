@@ -6,6 +6,7 @@ public class Main {
 	BufferedReader reader;
 	String speech = "";
 	String status = "Success";
+	String answer = null;
 
         try {
             reader = new BufferedReader(new FileReader("Files/Speech.txt"));
@@ -36,49 +37,49 @@ public class Main {
 			speech = speech.replace("\\s+", "");
 			Calculator calc = new Calculator(speech);
 				if (calc.decode() == true) {
-					System.out.println(calc.getValue());
+					answer = Double.toString(calc.getValue());
 				} else {
 					status = "Not a mathematical expression";
 				}
 			} else if (speech.contains("file") && (speech.contains("create") || speech.contains("build") || speech.contains("make"))) {
 				if (speech.contains("called")) {
-					functions.newFile(speech.substring(speech.indexOf("called") + "called".length() + 1));
+					functions.newFile((speech.substring(speech.indexOf("called") + "called".length() + 1)).replaceAll("\\s+", ""));
 				} else if (speech.contains("named")) {
-					functions.newFile(speech.substring(speech.indexOf("named") + "named".length() + 1));
+					functions.newFile((speech.substring(speech.indexOf("named") + "named".length() + 1)).replaceAll("\\s+", ""));
 				} else if (speech.contains("name")) {
-					functions.newFile(speech.substring(speech.indexOf("name") + "name".length() + 1));
+					functions.newFile((speech.substring(speech.indexOf("name") + "name".length() + 1)).replaceAll("\\s+", ""));
 				} else if (speech.contains("file")) {
-					functions.newFile(speech.substring(speech.indexOf("file") + "file".length() + 1));
+					functions.newFile((speech.substring(speech.indexOf("file") + "file".length() + 1)).replaceAll("\\s+", ""));
 				}
 			} else if (speech.contains("change") || speech.contains("switch") || speech.contains("tab") || speech.contains("swap")) {
 				if (speech.contains("to")) {
-					functions.changeFile(speech.substring(speech.indexOf("to") + "to".length() + 1));
+					functions.changeFile((speech.substring(speech.indexOf("to") + "to".length() + 1)).replaceAll("\\s+", ""));
 				} else if (speech.contains("named")) {
-					functions.changeFile(speech.substring(speech.indexOf("named") + "named".length() + 1));
+					functions.changeFile((speech.substring(speech.indexOf("named") + "named".length() + 1)).replaceAll("\\s+", ""));
 				} if (speech.contains("name")) {
-					functions.changeFile(speech.substring(speech.indexOf("name") + "name".length() + 1));
+					functions.changeFile((speech.substring(speech.indexOf("name") + "name".length() + 1)).replaceAll("\\s+", ""));
 				} else if (speech.contains("called")) {
-					functions.changeFile(speech.substring(speech.indexOf("called") + "called".length() + 1));
+					functions.changeFile((speech.substring(speech.indexOf("called") + "called".length() + 1)).replaceAll("\\s+", ""));
 				} else if (speech.contains("file")) {
-					functions.changeFile(speech.substring(speech.indexOf("file") + "file".length() + 1));
+					functions.changeFile((speech.substring(speech.indexOf("file") + "file".length() + 1)).replaceAll("\\s+", ""));
 				}
 			} else if (speech.contains("file") && (speech.contains("remove") || speech.contains("delete"))) {
 				if (speech.contains("called")) {
-					functions.deleteFile(speech.substring(speech.indexOf("called") + "called".length() + 1));
+					functions.deleteFile((speech.substring(speech.indexOf("called") + "called".length() + 1)).replaceAll("\\s+", ""));
 				} else if (speech.contains("named")) {
-					functions.deleteFile(speech.substring(speech.indexOf("named") + "named".length() + 1));
+					functions.deleteFile((speech.substring(speech.indexOf("named") + "named".length() + 1)).replaceAll("\\s+", ""));
 				} else if (speech.contains("name")) {
-					functions.deleteFile(speech.substring(speech.indexOf("name") + "name".length() + 1));
+					functions.deleteFile((speech.substring(speech.indexOf("name") + "name".length() + 1)).replaceAll("\\s+", ""));
 				} else if (speech.contains("file")) {
-					functions.deleteFile(speech.substring(speech.indexOf("file") + "file".length() + 1));
+					functions.deleteFile((speech.substring(speech.indexOf("file") + "file".length() + 1)).replaceAll("\\s+", ""));
 				}
 			} else if (speech.contains("file") && (speech.contains("copy") || speech.contains("clone"))) {
 				if (speech.contains("it")) {
-					functions.cloneFile(speech.substring(speech.indexOf("it") + "it".length() + 1));
+					functions.cloneFile((speech.substring(speech.indexOf("it") + "it".length() + 1)).replaceAll("\\s+", ""));
 				} else if (speech.contains("name")) {
-					functions.cloneFile(speech.substring(speech.indexOf("name") + "name".length() + 1));
+					functions.cloneFile((speech.substring(speech.indexOf("name") + "name".length() + 1)).replaceAll("\\s+", ""));
 				} else if (speech.contains("file")) {
-					functions.cloneFile(speech.substring(speech.indexOf("file") + "file".length() + 1));
+					functions.cloneFile((speech.substring(speech.indexOf("file") + "file".length() + 1)).replaceAll("\\s+", ""));
 				}
 			} else if (speech.contains("backspace")) {
 				functions.backspace();
@@ -152,6 +153,16 @@ public class Main {
 					speech2 = functions2.getSpeech();
 					functions.insert(one, speech2);
 				}
+			} else if (speech.contains("compile")) {
+				try {
+					Runtime.getRuntime().exec("python Compiler.py");
+				} catch (Exception e) {
+				}
+			} else {
+				try {
+					Runtime.getRuntime().exec("python Functionsexperimental.py");
+				} catch (Exception e) {
+				}
 			}
 		} else {
 			functions.findNumber();
@@ -166,7 +177,13 @@ public class Main {
 		functions.writeConsole();
 
 		//Prints status
-		status = functions.getStatus();
+
+		if (answer == null) {
+			status = functions.getStatus();
+		} else {
+			status = answer;
+		}
+
 		try {
 		    PrintWriter writer = new PrintWriter("Files/Status.txt");
 		    writer.print("");

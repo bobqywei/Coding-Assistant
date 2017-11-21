@@ -1,83 +1,55 @@
 
 #include <stdio.h>
-#include <stdbool.h>
-#define MAX 7
+#define max 10
 
-int intArray[MAX] = {4,6,3,2,1,9,7};
+int a[11] = { 10, 14, 19, 26, 27, 31, 33, 35, 42, 44, 0 };
+int b[10];
 
-void printline(int count) {
+void merging(int low, int mid, int high) {
+   int l1, l2, i;
+
+   for(l1 = low, l2 = mid + 1, i = low; l1 <= mid && l2 <= high; i++) {
+      if(a[l1] <= a[l2])
+         b[i] = a[l1++];
+      else
+         b[i] = a[l2++];
+   }
+   
+   while(l1 <= mid)    
+      b[i++] = a[l1++];
+
+   while(l2 <= high)   
+      b[i++] = a[l2++];
+
+   for(i = low; i <= high; i++)
+      a[i] = b[i];
+}
+
+void sort(int low, int high) {
+   int mid;
+   
+   if(low < high) {
+      mid = (low + high) / 2;
+      sort(low, mid);
+      sort(mid+1, high);
+      merging(low, mid, high);
+   } else { 
+      return;
+   }   
+}
+
+int main() { 
    int i;
-	
-   for(i = 0;i <count-1;i++) {
-      printf("=");
-   }
-	
-   printf("=\n");
-}
 
-void display() {
-   int i;
-   printf("[");
-	
-   // navigate through all items 
-   for(i = 0;i<MAX;i++) {
-      printf("%d ",intArray[i]);
-   }
-	
-   printf("]\n");
-}
+   printf("List before sorting\n");
+   
+   for(i = 0; i <= max; i++)
+      printf("%d ", a[i]);
 
-void swap(int num1, int num2) {
-   int temp = intArray[num1];
-   intArray[num1] = intArray[num2];
-   intArray[num2] = temp;
-}
+   sort(0, max);
 
-int partition(int left, int right, int pivot) {
-   int leftPointer = left -1;
-   int rightPointer = right;
-
-   while(true) {
-      while(intArray[++leftPointer] < pivot) {
-         //do nothing
-      }
-		
-      while(rightPointer > 0 && intArray[--rightPointer] > pivot) {
-         //do nothing
-      }
-
-      if(leftPointer >= rightPointer) {
-         break;
-      } else {
-         printf(" item swapped :%d,%d\n", intArray[leftPointer],intArray[rightPointer]);
-         swap(leftPointer,rightPointer);
-      }
-   }
-	
-   printf(" pivot swapped :%d,%d\n", intArray[leftPointer],intArray[right]);
-   swap(leftPointer,right);
-   printf("Updated Array: "); 
-   display();
-   return leftPointer;
-}
-
-void quickSort(int left, int right) {
-   if(right-left <= 0) {
-      return;   
-   } else {
-      int pivot = intArray[right];
-      int partitionPoint = partition(left, right, pivot);
-      quickSort(left,partitionPoint-1);
-      quickSort(partitionPoint+1,right);
-   }        
-}
-
-main() {
-   printf("Input Array: ");
-   display();
-   printline(50);
-   quickSort(0,MAX-1);
-   printf("Output Array: ");
-   display();
-   printline(50);
+   printf("\nList after sorting\n");
+   
+   for(i = 0; i <= max; i++)
+      printf("%d ", a[i]);
 }
