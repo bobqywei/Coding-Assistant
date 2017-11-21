@@ -40,16 +40,15 @@ class Functions:
 	def __init__(self):
 		pathToName = 'Files/WorkingFile/FileName.txt'
 		with open(pathToName, 'r') as reader:
-			self.fileName = os.path.join('Files', reader.read()[:-1] + '.c')
+			self.fileName = os.path.join('Files', reader.read() + '.c')
 
 	def changeOutFile(self): #runs everytime the object is called (incase the user changes files)
 		pathToName = 'Files/WorkingFile/FileName.txt'
 		with open(pathToName, 'r') as reader:
-			self.fileName = os.path.join('Files', reader.read()[:-1] + '.c')
+			self.fileName = os.path.join('Files', reader.read() + '.c')
 
-	def newInput(self):
-		with open(self.fileName, 'r') as f:
-			self.string = f.read()
+	def newInput(self, string):
+		self.string = string
 		# common words pre-naming var are "called" and "named".... they fit between dataType and varName most of the time so we can just remove it. we search for these words, if they don't show up default is just around =. also , search after any operator for any "to" as in let this equal to, or if a equal euqal to b since "to" is fairly common after equals
 		self.string = self.string.replace(" called ", " ")
 		self.string = self.string.replace(" named ", " ")
@@ -331,7 +330,6 @@ class Functions:
 
 if __name__ == "__main__": #instead we have 'code mode' or something of the sort, which initializes a functions object. then opens files on request, and when does, the person will say finished code mode or osmething, which closes the files
 	funcs = Functions() # new functions object w/o intialization
-	funcs.newInput()
 	#funcs.newInput()
 	#funcs.newInput("create a while loop where the condition is while a is less than b")
 	#funcs.newInput("if not a equals equals b then c plus d and make another while loop where while a is greater than b")
