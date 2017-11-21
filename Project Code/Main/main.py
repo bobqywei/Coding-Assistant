@@ -1,8 +1,9 @@
 import pull_code
-import speech_to_text
+import speech_to_text as stt
 import subprocess
 import os
 import time
+import text_to_speech as tts
 
 
 RUNNING = True
@@ -11,7 +12,7 @@ code_file_name = "temp.c"
 
 while RUNNING:
 
-	stt_transcript = speech_to_text.listen(2500)
+	stt_transcript = stt.listen(2500)
 	
 	if stt_transcript.startswith("show"):
 		url_result = pull_code.get_url_result(stt_transcript)
@@ -19,11 +20,12 @@ while RUNNING:
 		if url_result:
 			pull_code.get_save_code(url_result, code_file_name)
 			pull_code.run_in_terminal(code_file_name)
+			tts.tts_and_play("I have also found some code for you")
 		else:
-			print("I'm sorry, I could not find any relevant code")
+			tts.tts_and_play("Sorry I could not find anything for that")
 
 	elif stt_transcript.startswith("goodbye") or stt_transcript.startswith("good bye"):
-		print("OK. I'm going back to sleep.")
+		tts.tts_and_play("OK. I'm going back to sleep.")
 		RUNNING = False
 
 	else:
@@ -33,5 +35,6 @@ while RUNNING:
                 if stt_transcript:
                         bash = subprocess.Popen(["java", "Main"], stdout=subprocess.PIPE)
                         bash.communicate()
+                        tts.tts_and_play(tts.read_from_file(os.getcwd() + "/Files/Status.txt"))
                         
 		

@@ -1,6 +1,7 @@
 import urllib.request
 from bs4 import BeautifulSoup
 import subprocess
+import text_to_speech as tts
 
 
 def get_url_result(string_input):
@@ -25,7 +26,7 @@ def get_save_code(result_url, filename):
 	soup = BeautifulSoup(html_res, "html.parser")
 
 	desc = soup.find('p').getText()
-	print(desc + "\n")
+	tts.tts_and_play(desc)
 
 	code = soup.find('pre', {'class': "prettyprint"}).getText()
 	code = code.replace('&plus;', '+')

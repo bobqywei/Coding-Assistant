@@ -54,7 +54,6 @@ def save_to_wav (data, p):
 	wf.setsampwidth(p.get_sample_size(FORMAT))
 	wf.setframerate(RATE)
 	wf.writeframes(b''.join(data))
-	print("Audio Recording Saved")
 	wf.close()
 
 	return filename + '.wav'
@@ -123,7 +122,7 @@ def listen(idle):
 			# deletes the temporary audio file after a response is obtained
 			if os.path.isfile(file_dir):
 				os.unlink(file_dir)
-				print("Temporary audio file deleted")
+				# print("Temporary audio file deleted")
 
 			return response
 
