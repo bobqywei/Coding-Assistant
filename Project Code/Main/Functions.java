@@ -83,6 +83,21 @@ public class Functions {
         }
     }
 
+    protected void writeConsole() {
+	BufferedReader reader;
+        String line;
+
+        try {
+            reader = new BufferedReader(new FileReader("Files/" + this.fileName + ".c"));
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+            reader.close();
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
     protected void newFile(String fileName) {
         try {
             PrintWriter pr = new PrintWriter("Files/" + fileName + ".c");

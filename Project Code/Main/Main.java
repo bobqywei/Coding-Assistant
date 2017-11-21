@@ -159,8 +159,11 @@ public class Main {
 			functions.addSpeech();
 		}
 
-        	//Writes ArrayList to text file
+        	//Writes ArrayList to text file and prints to console
 		functions.writeFile();
+		System.out.print("\033[H\033[2J");
+		System.out.flush();
+		functions.writeConsole();
 
 		//Prints status
 		status = functions.getStatus();
@@ -172,7 +175,7 @@ public class Main {
             	    PrintWriter pr = new PrintWriter("Files/Status.txt");
 		    pr.println(status);
             	    pr.close();
-        }
+        	}
         catch (Exception exception) {
             exception.printStackTrace();
         }

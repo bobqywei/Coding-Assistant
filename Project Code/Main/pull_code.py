@@ -30,6 +30,7 @@ def get_save_code(result_url, filename):
 	code = soup.find('pre', {'class': "prettyprint"}).getText()
 	code = code.replace('&plus;', '+')
 	print("Successfully pulled code")
+	print(code)
 
 	with open(filename, 'w') as file:
 		file.write(code)
@@ -37,13 +38,15 @@ def get_save_code(result_url, filename):
 
 def run_in_terminal(filename):
 	bash = subprocess.Popen(['sudo', 'gcc', filename, '-o', 'tmp'])
-	bash2 = subprocess.Popen(['sudo', './tmp'], stdout=subprocess.PIPE)
+	bash.communicate()
+	bash.wait()
+	bash = subprocess.Popen(['sudo', './tmp'], stdout=subprocess.PIPE)
 
-	print(bash2.stdout.read().decode('utf-8'))
+	print(bash.stdout.read().decode('utf-8'))
 
 
 if __name__ == '__main__':
-	input = "show me binary search"
+	input = "show me merge sort"
 	file_name = input.replace(" ", "_") + ".c"
 	url_result = get_url_result(input)
 	get_save_code(url_result, file_name)
