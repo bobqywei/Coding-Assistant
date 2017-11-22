@@ -38,7 +38,7 @@ def get_save_code(result_url, filename):
 
 
 def run_in_terminal(filename):
-	bash = subprocess.Popen(['sudo', 'gcc', filename, '-o', 'tmp'])
+	bash = subprocess.Popen(['sudo', 'gcc', filename])
 	bash.communicate()
 	bash.wait()
 	bash = subprocess.Popen(['sudo', './tmp'], stdout=subprocess.PIPE)

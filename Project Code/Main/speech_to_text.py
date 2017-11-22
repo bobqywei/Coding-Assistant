@@ -73,6 +73,11 @@ def speech_to_text(file):
 		return transcript
 
 
+def save_transcript(transcript, file):
+        with open(file, "w") as save:
+            save.write(transcript)
+
+
 def listen(idle):
 	p = pyaudio.PyAudio()
 	stream = p.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True, frames_per_buffer=CHUNK)
@@ -116,6 +121,7 @@ def listen(idle):
 			# converts .wav to text through call to Watson API
 			response = speech_to_text(file)
 			response.lstrip().rstrip().lower()
+			save_transcript(response, os.getcwd() + "/Files/Transcript.txt")
 			
 			# directory of temporary audio file
 			file_dir = os.path.join(os.getcwd(), file)
