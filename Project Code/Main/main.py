@@ -5,6 +5,7 @@ import os
 import time
 import text_to_speech as tts
 
+cwd = os.getcwd()
 
 RUNNING = True
 
@@ -19,7 +20,7 @@ while RUNNING:
 
 		if url_result:
 			pull_code.get_save_code(url_result, code_file_name)
-			pull_code.run_in_terminal(code_file_name)
+			# pull_code.run_in_terminal(code_file_name)
 			tts.tts_and_play("I have also found some code for you")
 		else:
 			tts.tts_and_play("Sorry I could not find anything for that")
@@ -35,6 +36,6 @@ while RUNNING:
                 if stt_transcript:
                         bash = subprocess.Popen(["java", "Main"], stdout=subprocess.PIPE)
                         bash.communicate()
-                        tts.tts_and_play(tts.read_from_file(os.getcwd() + "/Files/Status.txt"))
+                        tts.tts_and_play(tts.read_from_file(cwd + "/Files/Status.txt"))
                         
 		

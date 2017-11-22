@@ -1,83 +1,72 @@
 
 #include <stdio.h>
 #include <stdbool.h>
-#define MAX 7
 
-int intArray[MAX] = {4,6,3,2,1,9,7};
+#define MAX 10
 
-void printline(int count) {
-   int i;
-	
-   for(i = 0;i <count-1;i++) {
-      printf("=");
-   }
-	
-   printf("=\n");
-}
+int list[MAX] = {1,8,4,6,0,3,5,2,7,9};
 
 void display() {
    int i;
    printf("[");
 	
    // navigate through all items 
-   for(i = 0;i<MAX;i++) {
-      printf("%d ",intArray[i]);
+   for(i = 0; i < MAX; i++) {
+      printf("%d ",list[i]);
    }
 	
    printf("]\n");
 }
 
-void swap(int num1, int num2) {
-   int temp = intArray[num1];
-   intArray[num1] = intArray[num2];
-   intArray[num2] = temp;
-}
-
-int partition(int left, int right, int pivot) {
-   int leftPointer = left -1;
-   int rightPointer = right;
-
-   while(true) {
-      while(intArray[++leftPointer] < pivot) {
-         //do nothing
-      }
+void bubbleSort() {
+   int temp;
+   int i,j;
+	
+   bool swapped = false;
+   
+   // loop through all numbers 
+   for(i = 0; i < MAX-1; i++) { 
+      swapped = false;
 		
-      while(rightPointer > 0 && intArray[--rightPointer] > pivot) {
-         //do nothing
+      // loop through numbers falling ahead 
+      for(j = 0; j < MAX-1-i; j++) {
+         printf("     Items compared: [ %d, %d ] ", list[j],list[j+1]);
+
+         // check if next number is lesser than current no
+         //   swap the numbers. 
+         //  (Bubble up the highest number)
+			
+         if(list[j] > list[j+1]) {
+            temp = list[j];
+            list[j] = list[j+1];
+            list[j+1] = temp;
+
+            swapped = true;
+            printf(" => swapped [%d, %d]\n",list[j],list[j+1]);
+         }else {
+            printf(" => not swapped\n");
+         }
+			
       }
 
-      if(leftPointer >= rightPointer) {
+      // if no number was swapped that means 
+      //   array is sorted now, break the loop. 
+      if(!swapped) {
          break;
-      } else {
-         printf(" item swapped :%d,%d\n", intArray[leftPointer],intArray[rightPointer]);
-         swap(leftPointer,rightPointer);
       }
+      
+      printf("Iteration %d#: ",(i+1)); 
+      display();
    }
 	
-   printf(" pivot swapped :%d,%d\n", intArray[leftPointer],intArray[right]);
-   swap(leftPointer,right);
-   printf("Updated Array: "); 
-   display();
-   return leftPointer;
-}
-
-void quickSort(int left, int right) {
-   if(right-left <= 0) {
-      return;   
-   } else {
-      int pivot = intArray[right];
-      int partitionPoint = partition(left, right, pivot);
-      quickSort(left,partitionPoint-1);
-      quickSort(partitionPoint+1,right);
-   }        
 }
 
 main() {
    printf("Input Array: ");
    display();
-   printline(50);
-   quickSort(0,MAX-1);
-   printf("Output Array: ");
+   printf("\n");
+	
+   bubbleSort();
+   printf("\nOutput Array: ");
    display();
-   printline(50);
 }
