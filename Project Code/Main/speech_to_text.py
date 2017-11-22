@@ -49,7 +49,7 @@ def get_idle_intensity():
 	return idle_int
 
 
-def save_to_wav (data, p):
+def save_to_wav(data, p):
 	filename = "record_" + str(int(time.time()))
 
 	wf = wave.open(filename + '.wav', 'wb')
@@ -101,8 +101,10 @@ def listen(idle):
 
 	while iterations > 0:
 
-		current_data = stream.read(CHUNK)
-		audio_in.append(math.sqrt(abs(audioop.avg(current_data, 4))))
+		# iterations check prevents input overflow while other processes are running
+		if iterations > 0:
+			current_data = stream.read(CHUNK)
+			audio_in.append(math.sqrt(abs(audioop.avg(current_data, 4))))
 
 		# waits for intensity of audio to exceed idle intensity
 		if sum([i > idle for i in audio_in]) > 0:
