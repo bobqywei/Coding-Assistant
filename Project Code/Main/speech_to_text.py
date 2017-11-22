@@ -96,7 +96,6 @@ def listen(idle):
 	# initial overlap compensates for a late recording by combining 5 secs prior of audio
 	initial_overlap = deque(maxlen=int(0.5 * RATE/CHUNK))
 	started = False
-	delay = 0
 
 	iterations = 1
 
@@ -110,11 +109,10 @@ def listen(idle):
 
 				print("Starting Recording")
 				started = True
-				delay = 50
 
 			recording.append(current_data)
 
-		elif started and delay == 0:
+		elif started:
 
 			print("Finished Recording")
 
@@ -147,7 +145,6 @@ def listen(idle):
 
 		else:
 			initial_overlap.append(current_data)
-			delay -= 1
 
 if __name__ == '__main__':
 	while True:

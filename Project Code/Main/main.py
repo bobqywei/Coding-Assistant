@@ -22,12 +22,12 @@ while RUNNING:
 		if url_result:
 			pull_code.get_save_code(url_result, code_file_name)
 			# pull_code.run_in_terminal(code_file_name)
-			# tts.tts_and_play("I have also found some code for you")
+			tts.tts_and_play("I have also found some code for you")
 		else:
-			# tts.tts_and_play("Sorry I could not find anything for that")
+			tts.tts_and_play("Sorry I could not find anything for that")
 
 	elif stt_transcript.startswith("goodbye") or stt_transcript.startswith("good bye"):
-		tts.tts_and_play("OK. I'm going back to sleep.")
+		#tts.tts_and_play("OK. I'm going back to sleep.")
 		RUNNING = False
 
 	else:
