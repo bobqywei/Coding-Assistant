@@ -102,9 +102,9 @@ def listen(idle):
 	while iterations > 0:
 
 		# iterations check prevents input overflow while other processes are running
-		if iterations > 0:
-			current_data = stream.read(CHUNK)
-			audio_in.append(math.sqrt(abs(audioop.avg(current_data, 4))))
+		# if iterations > 0:
+		current_data = stream.read(CHUNK)
+		audio_in.append(math.sqrt(abs(audioop.avg(current_data, 4))))
 
 		# waits for intensity of audio to exceed idle intensity
 		if sum([i > idle for i in audio_in]) > 0:

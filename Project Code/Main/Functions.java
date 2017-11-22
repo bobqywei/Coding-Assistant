@@ -438,6 +438,8 @@ public class Functions {
     protected static void simplify() {
         speech = speech.toLowerCase();
 
+	speech = speech.replaceAll("\\bopen parentheses\\b", "(");
+	speech = speech.replaceAll("\\bclose parentheses\\b", ")");
         speech = speech.replaceAll("\\btilde\\b", "~");
         speech = speech.replaceAll("\\bacute\\b", "`");
         speech = speech.replaceAll("\\bback quote\\b", "`");
@@ -448,7 +450,7 @@ public class Functions {
         speech = speech.replaceAll("\\bat symbol\\b", "@");
         speech = speech.replaceAll("\\bat\\b", "@");
         speech = speech.replaceAll("\\bnumber sign\\b", "#");
-	    speech = speech.replaceAll("\\bnumber\\b", "#");
+	speech = speech.replaceAll("\\bnumber\\b", "#");
         speech = speech.replaceAll("\\bpound\\b", "#");
         speech = speech.replaceAll("\\bsharp\\b", "#");
         speech = speech.replaceAll("\\bhashtag\\b", "#");
@@ -464,10 +466,8 @@ public class Functions {
         speech = speech.replaceAll("\\basterisk\\b", "*");
         speech = speech.replaceAll("\\bstar symbol\\b", "*");
         speech = speech.replaceAll("\\bstar\\b", "*");
-	    speech = speech.replaceAll("\\btimes\\b", "*");
-	    speech = speech.replaceAll("\\bmultiplied by\\b", "*");
-        speech = speech.replaceAll("\\bopen parenthesis\\b", "(");
-        speech = speech.replaceAll("\\bclose parenthesis\\b", ")");
+	speech = speech.replaceAll("\\btimes\\b", "*");
+	speech = speech.replaceAll("\\bmultiplied by\\b", "*");
         speech = speech.replaceAll("\\bhyphen\\b", "-");
         speech = speech.replaceAll("\\bminus\\b", "-");
         speech = speech.replaceAll("\\bdash\\b", "-");
@@ -489,7 +489,7 @@ public class Functions {
         speech = speech.replaceAll("\\breverse solidus\\b", "\\");
         speech = speech.replaceAll("\\bforward slash\\b", "/");
         speech = speech.replaceAll("\\bsolidus\\b", "/");
-	    speech = speech.replaceAll("\\bdivided by\\b", "/");
+	speech = speech.replaceAll("\\bdivided by\\b", "/");
         speech = speech.replaceAll("\\bcolon\\b", ":");
         speech = speech.replaceAll("\\bsemicolon\\b", ";");
         speech = speech.replaceAll("\\bquote\\b", "\"");

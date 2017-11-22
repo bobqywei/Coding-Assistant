@@ -4,6 +4,7 @@ import subprocess
 import os
 import time
 import text_to_speech as tts
+from Functions import Functions
 
 cwd = os.getcwd()
 

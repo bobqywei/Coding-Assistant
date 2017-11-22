@@ -160,7 +160,15 @@ public class Main {
 				}
 			} else {
 				try {
-					Runtime.getRuntime().exec("python Functionsexperimental.py");
+					try {
+					    speech = speech.replaceAll("\\braspberry\\b", "");
+					    PrintWriter writer = new PrintWriter("Files/Speech.txt");
+					    writer.print(speech);
+			                    writer.close();
+        				} catch (Exception exception) {
+					}
+
+					Runtime.getRuntime().exec("python Functions.py");
 				} catch (Exception e) {
 				}
 			}

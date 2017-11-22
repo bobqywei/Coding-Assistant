@@ -4,5 +4,3 @@ int main() {
 	printf("test");
 	return 0;
 }
-print
-russberrywhatis2+2
