@@ -95,15 +95,13 @@ def listen(idle):
 
 	# initial overlap compensates for a late recording by combining 5 secs prior of audio
 	initial_overlap = deque(maxlen=int(0.5 * RATE/CHUNK))
-	started = False;
+	started = False
+	delay = 0
 
 	iterations = 1
 
 	while iterations > 0:
-
-		# iterations check prevents input overflow while other processes are running
-		# if iterations > 0:
-		current_data = stream.read(CHUNK)
+		current_data = stream.read(CHUNK, exception_on_overflow = False)
 		audio_in.append(math.sqrt(abs(audioop.avg(current_data, 4))))
 
 		# waits for intensity of audio to exceed idle intensity
@@ -112,10 +110,11 @@ def listen(idle):
 
 				print("Starting Recording")
 				started = True
+				delay = 50
 
 			recording.append(current_data)
 
-		elif started:
+		elif started and delay == 0:
 
 			print("Finished Recording")
 
@@ -148,6 +147,7 @@ def listen(idle):
 
 		else:
 			initial_overlap.append(current_data)
+			delay -= 1
 
 if __name__ == '__main__':
 	while True:
