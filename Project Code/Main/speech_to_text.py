@@ -3,7 +3,7 @@ import wave
 import math
 import audioop
 import time
-import shutil
+import text_to_speech as tts
 import os
 from collections import deque
 
@@ -31,6 +31,7 @@ def get_idle_intensity():
 
 	# Obtains frequency intensities
 	values = []
+
 	for i in range(samples):
 		values.append(math.sqrt(abs(audioop.avg(stream.read(CHUNK), 4))))
 
@@ -41,6 +42,7 @@ def get_idle_intensity():
 	idle_int = sum(values[:int(samples * 0.2)]) / int(samples * 0.2)
 
 	print("Idle Intensity: ", idle_int)
+
 	stream.close()
 	p.terminate()
 
@@ -49,6 +51,7 @@ def get_idle_intensity():
 
 def save_to_wav (data, p):
 	filename = "record_" + str(int(time.time()))
+
 	wf = wave.open(filename + '.wav', 'wb')
 	wf.setnchannels(CHANNELS)
 	wf.setsampwidth(p.get_sample_size(FORMAT))
@@ -61,8 +64,10 @@ def save_to_wav (data, p):
 
 def speech_to_text(file):
 	with open(file, "rb") as audio_content:
+
 		# obtains response from api call (JSON to string)
 		response = json.loads(json.dumps(stt.recognize(audio_content, content_type="audio/wav")))
+
 		transcript = ""
 
 		if len(response['results']) > 0:
@@ -74,8 +79,8 @@ def speech_to_text(file):
 
 
 def save_transcript(transcript, file):
-        with open(file, "w") as save:
-            save.write(transcript)
+	with open(file, "w") as save:
+		save.write(transcript)
 
 
 def listen(idle):
@@ -92,23 +97,27 @@ def listen(idle):
 	initial_overlap = deque(maxlen=int(0.5 * RATE/CHUNK))
 	started = False;
 
-	# Number of iterations to be run
-	iters = 1
+	iterations = 1
 
-	while iters > 0:
+	while iterations > 0:
+
 		current_data = stream.read(CHUNK)
 		audio_in.append(math.sqrt(abs(audioop.avg(current_data, 4))))
 
 		# waits for intensity of audio to exceed idle intensity
 		if sum([i > idle for i in audio_in]) > 0:
 			if not started:
+
 				print("Starting Recording")
 				started = True
 
 			recording.append(current_data)
 
 		elif started:
+
 			print("Finished Recording")
+
+			iterations -= 1
 
 			# saves audio to .wav file
 			# includes the initial overlap audio to compensate for late reaction timing
@@ -120,15 +129,18 @@ def listen(idle):
 
 			# converts .wav to text through call to Watson API
 			response = speech_to_text(file)
-			response.lstrip().rstrip().lower()
-			save_transcript(response, os.getcwd() + "/Files/Transcript.txt")
-			
+
+			if response:
+				response.lstrip().rstrip().lower()
+				save_transcript(response, os.getcwd() + "/Files/Transcript.txt")
+			else:
+				tts.tts_and_play("Sorry, I did not get that")
+
 			# directory of temporary audio file
 			file_dir = os.path.join(os.getcwd(), file)
 			# deletes the temporary audio file after a response is obtained
 			if os.path.isfile(file_dir):
 				os.unlink(file_dir)
-				# print("Temporary audio file deleted")
 
 			return response
 
