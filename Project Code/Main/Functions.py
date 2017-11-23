@@ -38,7 +38,7 @@ class Functions:
 
 	# this is run by Main.py.. grabs input from Speech.txt
 	def newInput(self):
-		changeOutFile()
+		self.changeOutFile()
 		with open('Files/Speech.txt', 'r') as f:
 			self.string = f.read()
 		# some common redundant words that we can immediately remove. note that we do not want to remove these from print _ exitprint statements however
@@ -51,13 +51,13 @@ class Functions:
 		self.string = self.string.replace(" be ", " ")
 		self.currentArray = self.string.split(" ")
 		oldLength = len(self.stringArray) # this is to help determine where in stringArray to start writing to file
-		if self.string == "exit code": # if we hear this, then we want to automatically create semicolons and } to end the file immediately
+		if self.string == "exit code ": # if we hear this, then we want to automatically create semicolons and } to end the file immediately
 			if self.indentCounter == 0:
 				self.stringArray.append(";")
 			else: 
 				while self.indentCounter > 0:
 					self.exitCreator()
-		if self.indentCounter > 0 and (self.string == "exit brace" or self.string == "exit loop" or self.string == "exit if"): # if we hear any of these, we want to close the current block, and start working on the next
+		if self.indentCounter > 0 and (self.string == "exit brace " or self.string == "exit loop " or self.string == "exit if "): # if we hear any of these, we want to close the current block, and start working on the next
 			self.exitCreator()
 		else:
 			self.translate()
