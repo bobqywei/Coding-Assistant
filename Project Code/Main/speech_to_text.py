@@ -1,3 +1,6 @@
+"""
+	File containing functions necessary for audio recording and speech to text.
+"""
 # Imports needed files
 import text_to_speech as tts
 
