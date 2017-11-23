@@ -9,8 +9,8 @@ import wave
 from watson_developer_cloud import TextToSpeechV1
 
 # IBM credentials for text to speech
-IBM_USERNAME_TTS = "55c80c39-8cec-4969-8701-7ea93997915c"
-IBM_PASSWORD_TTS = "DYnKTSs3rWO1"
+IBM_USERNAME_TTS = "7b4821e4-082d-49b9-aaac-00be41619530"
+IBM_PASSWORD_TTS = "M7FimeKQxQSg"
 
 # instance of IBM text to speech
 tts = TextToSpeechV1(username=IBM_USERNAME_TTS, password=IBM_PASSWORD_TTS)
