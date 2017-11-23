@@ -51,13 +51,13 @@ class Functions:
 		self.string = self.string.replace(" be ", " ")
 		self.currentArray = self.string.split(" ")
 		oldLength = len(self.stringArray) # this is to help determine where in stringArray to start writing to file
-		if self.string == "exit code": # if we hear this, then we want to automatically create semicolons and } to end the file immediately
+		if self.string == "exit code ": # if we hear this, then we want to automatically create semicolons and } to end the file immediately
 			if self.indentCounter == 0:
 				self.stringArray.append(";")
 			else: 
 				while self.indentCounter > 0:
 					self.exitCreator()
-		if self.indentCounter > 0 and (self.string == "exit brace" or self.string == "exit loop" or self.string == "exit if"): # if we hear any of these, we want to close the current block, and start working on the next
+		if self.indentCounter > 0 and (self.string == "exit brace " or self.string == "exit loop " or self.string == "exit if "): # if we hear any of these, we want to close the current block, and start working on the next
 			self.exitCreator()
 		else:
 			self.translate()
