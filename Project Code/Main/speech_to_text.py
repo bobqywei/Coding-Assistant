@@ -16,8 +16,8 @@ import json
 from watson_developer_cloud import SpeechToTextV1
 
 # IBM Speech to Text credentials
-IBM_USERNAME = "dced0ac1-c955-4c30-90f4-05db435f7c6f"
-IBM_PASSWORD = "GLnzMJg7E4M6"
+IBM_USERNAME = "b78dc902-1d89-4c82-be62-5d8d19170d0a"
+IBM_PASSWORD = "U1RkyDhxe8Gm"
 
 # instance of speech to text module
 stt = SpeechToTextV1(username=IBM_USERNAME, password=IBM_PASSWORD)

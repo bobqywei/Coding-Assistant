@@ -1,55 +1,84 @@
 
 #include <stdio.h>
-#define max 10
 
-int a[11] = { 10, 14, 19, 26, 27, 31, 33, 35, 42, 44, 0 };
-int b[10];
+#define MAX 20
 
-void merging(int low, int mid, int high) {
-   int l1, l2, i;
+// array of items on which linear search will be conducted. 
+int intArray[MAX] = {1,2,3,4,6,7,9,11,12,14,15,16,17,19,33,34,43,45,55,66};
 
-   for(l1 = low, l2 = mid + 1, i = low; l1 <= mid && l2 <= high; i++) {
-      if(a[l1] <= a[l2])
-         b[i] = a[l1++];
-      else
-         b[i] = a[l2++];
-   }
-   
-   while(l1 <= mid)    
-      b[i++] = a[l1++];
-
-   while(l2 <= high)   
-      b[i++] = a[l2++];
-
-   for(i = low; i <= high; i++)
-      a[i] = b[i];
-}
-
-void sort(int low, int high) {
-   int mid;
-   
-   if(low < high) {
-      mid = (low + high) / 2;
-      sort(low, mid);
-      sort(mid+1, high);
-      merging(low, mid, high);
-   } else { 
-      return;
-   }   
-}
-
-int main() { 
+void printline(int count) {
    int i;
+	
+   for(i = 0;i <count-1;i++) {
+      printf("=");
+   }
+	
+   printf("=\n");
+}
 
-   printf("List before sorting\n");
-   
-   for(i = 0; i <= max; i++)
-      printf("%d ", a[i]);
+int find(int data) {
+   int lowerBound = 0;
+   int upperBound = MAX -1;
+   int midPoint = -1;
+   int comparisons = 0;      
+   int index = -1;
+	
+   while(lowerBound <= upperBound) {
+      printf("Comparison %d\n" , (comparisons +1) );
+      printf("lowerBound : %d, intArray[%d] = %d\n",lowerBound,lowerBound,
+         intArray[lowerBound]);
+      printf("upperBound : %d, intArray[%d] = %d\n",upperBound,upperBound,
+         intArray[upperBound]);
+      comparisons++;
+		
+      // compute the mid point
+      // midPoint = (lowerBound + upperBound) / 2;
+      midPoint = lowerBound + (upperBound - lowerBound) / 2;	
+		
+      // data found
+      if(intArray[midPoint] == data) {
+         index = midPoint;
+         break;
+      } else {
+         // if data is larger 
+         if(intArray[midPoint] < data) {
+            // data is in upper half
+            lowerBound = midPoint + 1;
+         }
+         // data is smaller 
+         else {
+            // data is in lower half 
+            upperBound = midPoint -1;
+         }
+      }               
+   }
+   printf("Total comparisons made: %d" , comparisons);
+   return index;
+}
 
-   sort(0, max);
+void display() {
+   int i;
+   printf("[");
+	
+   // navigate through all items 
+   for(i = 0;i<MAX;i++) {
+      printf("%d ",intArray[i]);
+   }
+	
+   printf("]\n");
+}
 
-   printf("\nList after sorting\n");
-   
-   for(i = 0; i <= max; i++)
-      printf("%d ", a[i]);
+main() {
+   printf("Input Array: ");
+   display();
+   printline(50);
+	
+   //find location of 1
+   int location = find(55);
+
+   // if element was found 
+   if(location != -1)
+      printf("\nElement found at location: %d" ,(location+1));
+   else
+      printf("\nElement not found.");
 }

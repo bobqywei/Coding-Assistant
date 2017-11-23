@@ -18,6 +18,7 @@ class Functions:
 	DATAWHITELIST = []
 	INDEPDATALIST = [] #i.e. "indep"endent data list, it is a list of user-declared variables that were not inited, they are handled in a separate way for indentations/semicolons
 	fileName = ""
+	indentCounter = 0 # counts number of '\t' in indents
 	string = "" # input from Speech.txt
 	stringArray = [] # this actively stores all previous code that was created by this class
 	currentArray = None # this stores the current input in an array, and is to be translated/normalized

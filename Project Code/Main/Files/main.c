@@ -9,3 +9,5 @@ int =;
 ;
 int =
 butistootime6-3
+printf("hello ")
+thirty * paritythirty * thirty
