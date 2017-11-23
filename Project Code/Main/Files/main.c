@@ -1,7 +1,11 @@
 #include <stdio.h>
 
-int main() {
-	
-printf("hello world exit prince ");
-return 0;
-}
+int main() {lamp = three
+
+
+land = threeint left = 3;
+;
+int =;
+;
+int =
+butistootime6-3

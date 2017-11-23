@@ -29,7 +29,7 @@ while RUNNING:
 			tts.tts_and_play("Sorry I could not find anything for that")
 
 	elif stt_transcript.startswith("goodbye") or stt_transcript.startswith("good bye"):
-		#tts.tts_and_play("OK. I'm going back to sleep.")
+		tts.tts_and_play("OK. I'm going back to sleep.")
 		RUNNING = False
 
 	elif stt_transcript.startswith("raspberry "):
@@ -38,7 +38,7 @@ while RUNNING:
             
 		bash = subprocess.Popen(["java", "Main"], stdout=subprocess.PIPE)
 		bash.communicate()
-		#tts.tts_and_play(tts.read_from_file(cwd + "/Files/Status.txt"))
+		tts.tts_and_play(tts.read_from_file(cwd + "/Files/Status.txt"))
                 
 	else:
                 with open(os.getcwd() + "/Files/Speech.txt", "w") as f:
