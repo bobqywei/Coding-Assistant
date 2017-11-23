@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 int main() {
-	printf("hello WORLD");
-	return 0;
-}if (a == P.) {
-		okay = seeif (
+	
+printf("hello world exit prince ");
+return 0;
+}

@@ -32,13 +32,17 @@ while RUNNING:
 		#tts.tts_and_play("OK. I'm going back to sleep.")
 		RUNNING = False
 
+	elif stt_transcript.startswith("raspberry "):
+		with open(os.getcwd() + "/Files/Speech.txt", "w") as f:
+			f.write(stt_transcript)
+            
+		bash = subprocess.Popen(["java", "Main"], stdout=subprocess.PIPE)
+		bash.communicate()
+		#tts.tts_and_play(tts.read_from_file(cwd + "/Files/Status.txt"))
+                
 	else:
                 with open(os.getcwd() + "/Files/Speech.txt", "w") as f:
                         f.write(stt_transcript)
                 funcs.newInput()
-                #if stt_transcript:
-                #        bash = subprocess.Popen(["java", "Main"], stdout=subprocess.PIPE)
-                #        bash.communicate()
-                #        tts.tts_and_play(tts.read_from_file(cwd + "/Files/Status.txt"))
                         
 		

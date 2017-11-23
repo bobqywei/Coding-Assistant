@@ -512,7 +512,9 @@ public class Functions {
         speech = speech.replaceAll("\\bnew line\\b", "\n");
         speech = speech.replaceAll("\\btab\\b", "\t");
 
+	speech = speech.replaceAll("\\bspace\\b", "@@@");
         speech = speech.replaceAll(" ", "");
-        speech = speech.replaceAll("\\bspace\\b", " ");
+        speech = speech.replace("@@@", " ");
+	System.out.println(speech);
     }
 }

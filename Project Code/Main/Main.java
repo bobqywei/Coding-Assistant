@@ -10,7 +10,7 @@ public class Main {
 
         try {
             reader = new BufferedReader(new FileReader("Files/Speech.txt"));
-            speech = reader.readLine();
+            speech = reader.readLine().replace("raspberry ", "");
             reader.close();
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -25,17 +25,19 @@ public class Main {
         functions.openFile();
 
 		//Executes commands
-		if (speech.contains("raspberry")) {
+		//if (speech.contains("raspberry")) {
+
 			if (speech.contains("calculate") || speech.contains("what is") || speech.contains("what's")) {
-			speech = speech.replace("raspberry", "");
-			speech = speech.replace("equal to", "");
-			speech = speech.replace("equal", "");
-			speech = speech.replace("what is", "");
-			speech = speech.replace("what does", "");
-			speech = speech.replace("what's", "");
-			speech = speech.replace("calculate", "");
-			speech = speech.replace("\\s+", "");
-			Calculator calc = new Calculator(speech);
+				speech = speech.replace("raspberry", "");
+				speech = speech.replace("equal to", "");
+				speech = speech.replace("equal", "");
+				speech = speech.replace("what is", "");
+				speech = speech.replace("what does", "");
+				speech = speech.replace("what's", "");
+				speech = speech.replace("calculate", "");
+				speech = speech.replace("\\s+", "");
+				Calculator calc = new Calculator(speech);
+
 				if (calc.decode() == true) {
 					answer = Double.toString(calc.getValue());
 				} else {
@@ -158,25 +160,12 @@ public class Main {
 					Runtime.getRuntime().exec("python Compiler.py");
 				} catch (Exception e) {
 				}
-			} else {
-				try {
-					try {
-					    speech = speech.replaceAll("\\braspberry\\b", "");
-					    PrintWriter writer = new PrintWriter("Files/Speech.txt");
-					    writer.print(speech);
-			                    writer.close();
-        				} catch (Exception exception) {
-					}
-
-					Runtime.getRuntime().exec("python Functions.py");
-				} catch (Exception e) {
-				}
+			} else if (speech.contains("")) {
+				functions.findNumber();
+				functions.simplify();
+				functions.addSpeech();
 			}
-		} else {
-			functions.findNumber();
-			functions.simplify();
-			functions.addSpeech();
-		}
+		//}
 
         	//Writes ArrayList to text file and prints to console
 		functions.writeFile();
