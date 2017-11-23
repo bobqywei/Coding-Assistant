@@ -7,7 +7,7 @@ public class Calculator {
 	public static final String[] TEENS = {"ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"};
 	public static final String[] TENS = {"twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};
 	public static final String[] MAGNITUDES = {"hundred", "thousand", "million", "billion"};
-	public static final String[] OPERATIONS = {"plus", "minus", "times", "divided"}; // add multiplied by?
+	public static final String[] OPERATIONS = {"plus", "minus", "times", "divided"}; 
 	public static final String[] BRACES = {"parenthesis", "parentheses", "bracket"};
 	public static final String[][] ALL = {ZERO, ONES, TEENS, TENS, MAGNITUDES, OPERATIONS, BRACES};
 
@@ -16,22 +16,18 @@ public class Calculator {
 	private String[] ops;
 	private Integer[] brace;
 
-	public boolean decode() { // if this returns false, input is not a mathematical equation. if true, then this function turns String input into two arrays: values and operations
-		// start by removing all "and"'s from the input since they are redundant, as well as "by" (in the case of "divided by")
+	public boolean decode() { 
 		input.replaceAll("and ", "");
 		input.replaceAll("by ", "");
-		// INITIALLY IGNORING SINS AND LOGS AND POSSIBLE "OF" AND POSSIBLE "PARAENTHESES/bracket" // handle these separately from vals and ops.
-		// also ignore pi, e and decimal (aka point) for now. ALSO "NEGATIVE"
-		// bracket with no multiplication sign should default to that?
-		// splitting input into individual words for easy comparison
 		String[] inputSplit = input.split(" ");
 		vals = new double[(inputSplit.length + 1) / 2];
 		ops = new String[(inputSplit.length - 1) / 2];
-		brace = new Integer[(vals.length)]; // add case where they forget a missing brace... binary array. to give priority to braces, what they essentially do is iterate through the interval between the first and second 1's (i.e. pairs of 1's), and performing the operations within these intervals. the size is the same as vals because the interval is based on the positions of the numbers in vals
+		brace = new Integer[(vals.length)];
 		int valCount = 0;
 		int opCount = 0;
 		double temp = 0; // stores cumulative value until the next operation is found (for switch statement)
 		double tempMag = 0; // stores the most recent value that is to be either gaining magnitude or being added
+		
 		for (int i = 0; i < inputSplit.length; i++) { // cycling through all inputted words
 			for (int j = 0; j < ALL.length; j++) { // cycling through all arrays (but not through the contents of each array)
 				if (Arrays.asList(ALL[j]).indexOf(inputSplit[i]) != -1) { // indexing the content of each array for the current word
@@ -50,7 +46,7 @@ public class Calculator {
 								} else {
 									tempMag *= Math.pow(1000, col); // col corresponds to mag i.e. col = 1: 1000, col = 2: 1000 * 1000 = 1000000 
 								}
-								break; // no need to increment valCount. magnitude only affects the most recent value and does not add any new ones
+								break;
 						case 5: switch (col) {
 									case 0: ops[opCount] = "+";
 											break;
@@ -72,18 +68,14 @@ public class Calculator {
 						valCount++;
 						temp = 0;
 						tempMag = 0;
-					} else { // if next input is magnitude, then this shouldn't be allowed to add it as tempMag needs to individually be magnified. if not, thten just add them together.
+					} else { // if next input is magnitude, then this shouldn't be allowed to add it as tempMag needs to individually be magnified. if not, then just add them together.
 						if (j != 5 && Arrays.asList(MAGNITUDES).indexOf(inputSplit[i + 1]) == -1 && Arrays.asList(BRACES).indexOf(inputSplit[i + 1]) == -1) {
 							temp += tempMag; // temp stores the cumulative value. note that, if the next input value is a magnitude, this does not run, so tempMag is multiplied by a certain magnitude and then added
 						}
 					}
-					//for (int k = 0; k < ops.length; k++) { 
-					//	System.out.println(vals[k] + "next is" + vals[k+1] + " hello " + ops[k]); 
-					//}
-					break; // start searching for the next word, since this one was already found. also prevents program from returning false even if a word was found
+					break; // start searching for the next word, since this one was already found
 				}
 			}
-			//return false;// leaving this false gives the program some leeway.. not sure whats the best way to apparoach this //BUGGED HERE, THIS WILL MAKE THE PROGRAM ALWAYS RETURN FALSE FOR SOME REASON // if the for loop is not broken, that must mean no word was matched. so this is not a mathermatical statement.
 		}
 		return true;
 	}
@@ -157,15 +149,6 @@ public class Calculator {
 	public Calculator(String input) {
 		this.input = input;
 	}
-
-	public static void main(String[] args) { // if keyword == what is... trouble doing composite brackets
-		Calculator calc = new Calculator("bracket bracket one plus two bracket plus three bracket");
-		if (calc.decode() == true) {
-			System.out.println(calc.getValue());
-		} else {
-			System.out.println("Not a mathematical expression!"); //note this never triggers because no return false statement (yet) // for the actual thing, this defaults to google search instead
-		}
-	}	
 }
 
 
