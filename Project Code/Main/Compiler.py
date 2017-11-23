@@ -3,6 +3,7 @@ import os
 
 get_file = os.getcwd() + "/Files/WorkingFile/FileName.txt"
 file_name = ""
+
 with open (get_file, 'r') as read_file:
     file_name = read_file.readline().strip()
 
