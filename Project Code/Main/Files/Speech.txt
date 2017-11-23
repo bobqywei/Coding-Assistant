@@ -1,1 +1,1 @@
-raspberry what's is two times six minus three 
+print hello 
