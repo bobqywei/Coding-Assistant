@@ -6,6 +6,8 @@ import time
 import text_to_speech as tts
 from Functions import Functions
 
+funcs = Functions()
+
 cwd = os.getcwd()
 
 RUNNING = True
@@ -33,10 +35,10 @@ while RUNNING:
 	else:
                 with open(os.getcwd() + "/Files/Speech.txt", "w") as f:
                         f.write(stt_transcript)
-                        
-                if stt_transcript:
-                        bash = subprocess.Popen(["java", "Main"], stdout=subprocess.PIPE)
-                        bash.communicate()
-                        tts.tts_and_play(tts.read_from_file(cwd + "/Files/Status.txt"))
+                funcs.newInput()
+                #if stt_transcript:
+                #        bash = subprocess.Popen(["java", "Main"], stdout=subprocess.PIPE)
+                #        bash.communicate()
+                #        tts.tts_and_play(tts.read_from_file(cwd + "/Files/Status.txt"))
                         
 		

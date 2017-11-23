@@ -38,7 +38,7 @@ class Functions:
 
 	# this is run by Main.py.. grabs input from Speech.txt
 	def newInput(self):
-		changeOutFile()
+		self.changeOutFile()
 		with open('Files/Speech.txt', 'r') as f:
 			self.string = f.read()
 		# some common redundant words that we can immediately remove. note that we do not want to remove these from print _ exitprint statements however
